@@ -20,10 +20,10 @@ module.exports = {
   },
 
   htmlPlugin: {
-    title: 'WEBPACK REACT BOILERPLATE',
+    title: 'Markdown Editor',
     template: join(paths.src, 'html', 'template.html'),
     chunksSortMode: (chunk1, chunk2) => {
-      const order = ['react-build', 'vendor', 'main']
+      const order = ['react', 'vendors', 'main']
       const left = order.indexOf(chunk1.names[0])
       const right = order.indexOf(chunk2.names[0])
       return left - right
@@ -57,7 +57,7 @@ module.exports = {
     include: paths.src,
     use: [
       'style-loader',
-      'css-loader?modules',
+      'css-loader',
       'sass-loader'
     ]
   },

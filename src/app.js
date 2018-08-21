@@ -1,18 +1,44 @@
 'use strict'
 
 import React from 'react'
-import { hot } from 'react-hot-loader'
+import './sass/app.scss'
+import MarkdownEditor from './components/markdown-editor'
 
-import style from './sass/app.scss'
-import reactLogo from './images/react-logo.svg'
+import { hot } from 'react-hot-loader'
+import marked from 'marked'
 
 class App extends React.Component {
+  constructor () {
+    super()
+
+    this.state = {
+      value: ''
+    }
+
+    this.handleChange = this.handleChange.bind(this)
+    this.getMarkup = this.getMarkup.bind(this)
+
+    import('highlight.js').then(hljs => {
+      marked.setOptions({
+        highlight: (code) => hljs.highlightAuto(code).value
+      })
+    })
+  }
+
+  getMarkup () {
+    return { __html: marked(this.state.value) }
+  }
+
+  handleChange (e) {
+    this.setState({ value: e.target.value })
+  }
+
   render () {
     return (
-      <div className={style.container}>
-        <img src={reactLogo} width='40px' height='40px' />
-        My App
-      </div>
+      <MarkdownEditor
+        value={this.state.value}
+        handleChange={this.handleChange}
+        getMarkup={this.getMarkup} />
     )
   }
 }
