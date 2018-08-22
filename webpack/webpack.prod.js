@@ -34,12 +34,12 @@ module.exports = {
       chunks: 'all',
       cacheGroups: {
         vendors: {
-          test: base.vendorsSplitTest,
-          chunks: 'all',
+          test: base.vendorsSplitTest(),
+          chunks: 'initial',
           name: 'vendors'
         },
         react: {
-          test: base.reactSplitTest,
+          test: base.reactSplitTest(),
           chunks: 'all',
           name: 'react'
         }

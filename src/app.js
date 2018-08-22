@@ -7,6 +7,17 @@ import MarkdownEditor from './components/markdown-editor'
 import { hot } from 'react-hot-loader'
 import marked from 'marked'
 
+import('highlight.js').then(hljs => {
+  marked.setOptions({
+    highlight: (code, lang) => {
+      if (lang && hljs.getLanguage(lang)) {
+        return hljs.highlight(lang, code).value
+      }
+      return hljs.highlightAuto(code).value
+    }
+  })
+})
+
 class App extends React.Component {
   constructor () {
     super()
@@ -17,12 +28,6 @@ class App extends React.Component {
 
     this.handleChange = this.handleChange.bind(this)
     this.getMarkup = this.getMarkup.bind(this)
-
-    import('highlight.js').then(hljs => {
-      marked.setOptions({
-        highlight: (code) => hljs.highlightAuto(code).value
-      })
-    })
   }
 
   getMarkup () {
