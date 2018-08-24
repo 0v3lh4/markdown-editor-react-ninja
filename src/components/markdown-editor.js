@@ -1,14 +1,16 @@
 'use strict'
 
 import React from 'react'
+import MarkdownEditorHeader from './markdown-editor-header'
 
 import './markdown-editor.scss'
 
-const MarkdownEditor = ({ value, handleChange, getMarkup }) => (
-  <div className='editor'>
+const MarkdownEditor = ({ value, handleChange, getMarkup, isSaving, handleRemove }) => (
+  <section className='editor'>
+    <MarkdownEditorHeader onRemove={handleRemove} isSaving={isSaving} />
     <textarea name='textarea' value={value} onChange={handleChange} autoFocus />
-    <div className='view' dangerouslySetInnerHTML={getMarkup()} />
-  </div>
+    <article className='view' dangerouslySetInnerHTML={getMarkup()} />
+  </section>
 )
 
 export default MarkdownEditor

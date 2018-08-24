@@ -7,6 +7,11 @@ const paths = {
   dist: join(__dirname, '..', 'dist')
 }
 
+const regexNodeModulesStr = '[\\\\/]node_modules[\\\\/]'
+const regexReactStr = '(react(-dom)?|fbjs|preact(-compat)?)+'
+
+const vendors = Object.keys(dependencies).filter((value) => !(new RegExp(regexReactStr).test(value)))
+
 module.exports = {
   paths,
 
@@ -32,13 +37,12 @@ module.exports = {
   },
 
   vendorsSplitTest: () => {
-    const vendors = Object.keys(dependencies).filter((value) => !/react(-dom)?/.test(value))
     if (vendors.length === 0) return /^$/
 
-    return new RegExp(`${'[\\\\/]node_modules[\\\\/]'}(${vendors.join('|').replace(/\./gi, '\\.')})+`)
+    return new RegExp(`${regexNodeModulesStr}(${vendors.join('|').replace(/\./gi, '\\.')})+`)
   },
 
-  reactSplitTest: () => /[\\/]node_modules[\\/](react(-dom)?|fbjs)+/,
+  reactSplitTest: () => new RegExp(`${regexNodeModulesStr}${regexReactStr}`),
 
   standardPreLoader: {
     enforce: 'pre',
